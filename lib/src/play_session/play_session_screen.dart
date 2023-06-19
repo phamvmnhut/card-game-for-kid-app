@@ -16,8 +16,11 @@ import '../game_internals/level_state.dart';
 import '../games_services/games_services.dart';
 import '../games_services/score.dart';
 import '../in_app_purchase/in_app_purchase.dart';
+import '../level_selection/level_selection_screen.dart';
 import '../level_selection/levels.dart';
+import '../main_menu/main_menu_screen.dart';
 import '../player_progress/player_progress.dart';
+import '../settings/settings_screen.dart';
 import '../style/confetti.dart';
 import '../style/palette.dart';
 
@@ -41,6 +44,8 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
 
   late DateTime _startOfPlay;
 
+  AudioController audioController = AudioController();
+
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
@@ -60,24 +65,114 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
           backgroundColor: palette.backgroundPlaySession,
           body: Stack(
             children: [
+              SafeArea(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Back(path: '/play'),
+                      GoldCoin(),
+                    ],
+                  ),
+                ),
+              ),
               Center(
                 // This is the entirety of the "game".
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: InkResponse(
-                        onTap: () => GoRouter.of(context).push('/settings'),
-                        child: Image.asset(
-                          'assets/images/settings.png',
-                          semanticLabel: 'Settings',
-                        ),
+                    // Align(
+                    //   alignment: Alignment.centerRight,
+                    //   child: InkResponse(
+                    //     onTap: () => GoRouter.of(context).push('/settings'),
+                    //     child: Image.asset(
+                    //       'assets/images/settings.png',
+                    //       semanticLabel: 'Settings',
+                    //     ),
+                    //   ),
+                    // ),
+                    const Spacer(),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(8, 0, 10, 38),
+                      width: double.infinity,
+                      height: 210,
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: Positioned(
+                              left: 0,
+                              top: 14,
+                              child: Align(
+                                child: SizedBox(
+                                  width: 325,
+                                  height: 196,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      color: Color(0xffffffff),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            child: Container(
+                              margin: EdgeInsets.only(bottom: 25),
+                              width: 106,
+                              height: 38,
+                              child: Text(
+                                'House',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w900,
+                                  height: 1.185,
+                                  color: Color(0xff315495),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                                margin: EdgeInsets.only(bottom: 37),
+                                width: 66,
+                                height: 52,
+                                child:
+                                    Listen(audioController: audioController)),
+                          ),
+                          Positioned(
+                            left: 229,
+                            top: 0,
+                            child: Container(
+                              width: 83,
+                              height: 28,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xffeef0f6)),
+                                color: Color(0xffb8c0ff),
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '1/20',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    height: 1.185,
+                                    color: Color(0xffffffff),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const Spacer(),
-                    Text('Drag the slider to ${widget.level.difficulty}%'
-                        ' or above!'),
+                    SquareContainer(audioController: audioController),
+                    // Text('Drag the slider to ${widget.level.difficulty}%'
+                    //     ' or above!'),
                     Consumer<LevelState>(
                       builder: (context, levelState, child) => Slider(
                         label: 'Level Progress',
@@ -89,16 +184,6 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                       ),
                     ),
                     const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: FilledButton(
-                          onPressed: () => GoRouter.of(context).go('/play'),
-                          child: const Text('Back'),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -177,4 +262,272 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
 
     GoRouter.of(context).go('/play/won', extra: {'score': score});
   }
+}
+
+class Listen extends StatefulWidget {
+  final AudioController audioController;
+
+  const Listen({super.key, required this.audioController});
+
+  @override
+  State<Listen> createState() => _ListenState();
+}
+
+class _ListenState extends State<Listen> {
+  late AudioController audioController;
+  bool isPressed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    audioController = widget.audioController;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(25), boxShadow: [
+        isPressed
+            ? BoxShadow(spreadRadius: -5)
+            : BoxShadow(
+                color: Color(0x3f000000),
+                offset: Offset(0, 4),
+                blurRadius: 2,
+              ),
+      ]),
+      child: FilledButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStatePropertyAll(
+            Color(0xffBBD0FF),
+          ),
+        ),
+        onPressed: () {
+          setState(() {
+            isPressed = !isPressed;
+
+            Future.delayed(
+              Duration(milliseconds: 400),
+              () {
+                setState(() {
+                  isPressed = !isPressed;
+                });
+              },
+            );
+          });
+          audioController.playSfx(SfxType.congrats);
+        },
+        child: Image.asset('assets/images/speaker.png'),
+      ),
+    );
+  }
+}
+
+class SessionPage extends StatefulWidget {
+  const SessionPage({super.key});
+
+  @override
+  State<SessionPage> createState() => _SessionPageState();
+}
+
+class _SessionPageState extends State<SessionPage> {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Container(
+        padding: const EdgeInsets.only(top: 29),
+        width: double.infinity,
+        color: const Color(0xFFFFD6FF),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 24),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 66,
+                      height: 46,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFBBD0FF),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0xFFB8C0FF),
+                            offset: Offset(0, 6),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(right: 29),
+                      width: 71,
+                      height: 35,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFFFFF),
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    )
+                  ],
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 15, left: 7),
+                  width: 325,
+                  height: 210,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        bottom: 0,
+                        child: Container(
+                          width: 325,
+                          height: 196,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFFFFF),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              const Text(
+                                'House',
+                                style: TextStyle(
+                                    color: Color(0xFF315496),
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 32),
+                              ),
+                              Container(
+                                width: 66,
+                                height: 46,
+                                decoration: BoxDecoration(
+                                    color: const Color(0xFFBBD0FF),
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Color(0xFFB8C0FF),
+                                        offset: Offset(0, 6),
+                                      )
+                                    ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 13,
+                        child: Container(
+                          width: 83,
+                          height: 28,
+                          decoration: BoxDecoration(
+                              color: const Color(0xFFB8C0FF),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: const Color(0xFFEEF0F6),
+                                width: 2,
+                              )),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    answerWidget('A', const Color(0xFFFF99C8)),
+                    const SizedBox(width: 9),
+                    answerWidget('B', const Color(0xFFFCF6BD)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    answerWidget('C', const Color(0xFFD0F4DE)),
+                    const SizedBox(width: 9),
+                    answerWidget('D', const Color(0xFFA9DEF9)),
+                  ],
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 36),
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFFFFF),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget answerWidget(String title, Color color) {
+  return Container(
+    margin: const EdgeInsets.only(top: 15),
+    width: 167,
+    height: 181,
+    decoration: BoxDecoration(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(16),
+    ),
+    child: Stack(
+      children: [
+        Positioned(
+          left: 0,
+          bottom: 0,
+          child: Container(
+            width: 167,
+            height: 167,
+            decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(0, 2),
+                  )
+                ]),
+          ),
+        ),
+        Positioned(
+          top: 0,
+          left: 42,
+          child: Container(
+            alignment: Alignment.center,
+            width: 83,
+            height: 28,
+            decoration: BoxDecoration(
+              color: const Color(0xFFB8C0FF),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: const Color(0xFFEEF0F6),
+                width: 2,
+              ),
+            ),
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFFFFFFFF),
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }

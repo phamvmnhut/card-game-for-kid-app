@@ -78,7 +78,7 @@ void guardedMain() {
 
   _log.info('Going full screen');
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
-  
+
   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
   //   statusBarColor: Colors.transparent,
   // ));

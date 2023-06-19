@@ -29,6 +29,8 @@ dependencies:
   google_mobile_ads: ^3.0.0  # Ads
   in_app_purchase: ^3.0.1  # In-app purchases
 
+
+
 dev_dependencies:
   analysis_defaults:
     path: ./analysis_defaults
