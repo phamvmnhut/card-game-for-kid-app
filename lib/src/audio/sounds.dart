@@ -43,6 +43,29 @@ List<String> soundTypeToFilename(SfxType type) {
       return const [
         'swishswish1.mp3',
       ];
+    case SfxType.hehe:
+      return const [
+        'ehehee1.mp3',
+      ];
+    case SfxType.coin:
+      return const [
+        'coin.wav',
+      ];
+    case SfxType.lalala:
+      return const [
+        'lalala1.mp3',
+      ];
+    case SfxType.haw:
+      return const [
+        'haw1.mp3',
+      ];
+    case SfxType.note:
+      return const [
+        'note2.wav',
+        'note3.wav',
+        'note4.wav',
+        'note5.wav',
+      ];
   }
 }
 
@@ -58,6 +81,12 @@ double soundTypeToVolume(SfxType type) {
     case SfxType.erase:
     case SfxType.swishSwish:
       return 1.0;
+    case SfxType.coin:
+    case SfxType.note:
+    case SfxType.lalala:
+    case SfxType.haw:
+    case SfxType.hehe:
+      return 1.0;
   }
 }
 
@@ -68,4 +97,9 @@ enum SfxType {
   congrats,
   erase,
   swishSwish,
+  hehe,
+  coin,
+  note,
+  lalala,
+  haw,
 }

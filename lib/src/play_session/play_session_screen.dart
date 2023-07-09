@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart' hide Level;
@@ -23,6 +24,8 @@ import '../player_progress/player_progress.dart';
 import '../settings/settings_screen.dart';
 import '../style/confetti.dart';
 import '../style/palette.dart';
+import '../style/widget.dart';
+import '../model/game.dart';
 
 class PlaySessionScreen extends StatefulWidget {
   final GameLevel level;
@@ -70,9 +73,12 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Back(path: '/play'),
-                      GoldCoin(),
+                    children: [
+                      Back(
+                        path: '/play',
+                        audioController: audioController,
+                      ),
+                      GoldCoin(audioController: audioController),
                     ],
                   ),
                 ),
@@ -276,6 +282,7 @@ class Listen extends StatefulWidget {
 class _ListenState extends State<Listen> {
   late AudioController audioController;
   bool isPressed = false;
+  AudioPlayer audioPlayer = AudioPlayer();
 
   @override
   void initState() {

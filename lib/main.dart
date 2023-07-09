@@ -136,8 +136,7 @@ class MyApp extends StatelessWidget {
             GoRoute(
                 path: 'play',
                 pageBuilder: (context, state) => buildMyTransition<void>(
-                      child: const LevelSelectionScreen(
-                          key: Key('level selection')),
+                      child: LevelSelectionScreen(key: Key('level selection')),
                       color: context.watch<Palette>().backgroundLevelSelection,
                     ),
                 routes: [

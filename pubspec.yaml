@@ -46,11 +46,15 @@ flutter:
     - assets/images/
     - assets/music/
     - assets/sfx/
+    - assets/house/
 
   fonts:
     - family: Permanent Marker
       fonts:
         - asset: assets/Permanent_Marker/PermanentMarker-Regular.ttf
+    - family: montserrat
+      fonts:
+        - asset: assets/montserrat/static/Montserrat-BlackItalic.ttf
 
 flutter_icons:
   android: true
