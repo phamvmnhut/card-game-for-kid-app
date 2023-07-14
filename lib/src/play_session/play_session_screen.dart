@@ -69,128 +69,129 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
           body: Stack(
             children: [
               SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Back(
-                        path: '/play',
-                        audioController: audioController,
-                      ),
-                      GoldCoin(audioController: audioController),
-                    ],
-                  ),
-                ),
-              ),
-              Center(
-                // This is the entirety of the "game".
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Align(
-                    //   alignment: Alignment.centerRight,
-                    //   child: InkResponse(
-                    //     onTap: () => GoRouter.of(context).push('/settings'),
-                    //     child: Image.asset(
-                    //       'assets/images/settings.png',
-                    //       semanticLabel: 'Settings',
-                    //     ),
-                    //   ),
-                    // ),
-                    const Spacer(),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(8, 0, 10, 38),
-                      width: double.infinity,
-                      height: 210,
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: Positioned(
-                              left: 0,
-                              top: 14,
-                              child: Align(
-                                child: SizedBox(
+                child: Center(
+                  // This is the entirety of the "game".
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Back(
+                              path: '/play',
+                              audioController: audioController,
+                            ),
+                            GoldCoin(
+                              audioController: audioController,
+                            ),
+                          ],
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 15, left: 7),
+                          width: 325,
+                          height: 210,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                bottom: 0,
+                                child: Container(
                                   width: 325,
                                   height: 196,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16),
-                                      color: Color(0xffffffff),
-                                    ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFFFFFFF),
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      const SizedBox(
+                                        height: 4,
+                                      ),
+                                      const Text(
+                                        'House',
+                                        style: TextStyle(
+                                            color: Color(0xFF315496),
+                                            fontWeight: FontWeight.w900,
+                                            fontSize: 32),
+                                      ),
+                                      Container(
+                                        width: 66,
+                                        height: 46,
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xFFBBD0FF),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                color: Color(0xFFB8C0FF),
+                                                offset: Offset(0, 6),
+                                              )
+                                            ]),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                          Align(
-                            child: Container(
-                              margin: EdgeInsets.only(bottom: 25),
-                              width: 106,
-                              height: 38,
-                              child: Text(
-                                'House',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.w900,
-                                  height: 1.185,
-                                  color: Color(0xff315495),
+                              Positioned(
+                                top: 0,
+                                right: 13,
+                                child: Container(
+                                  width: 83,
+                                  height: 28,
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xFFB8C0FF),
+                                      borderRadius: BorderRadius.circular(16),
+                                      border: Border.all(
+                                        color: const Color(0xFFEEF0F6),
+                                        width: 2,
+                                      )),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                                margin: EdgeInsets.only(bottom: 37),
-                                width: 66,
-                                height: 52,
-                                child:
-                                    Listen(audioController: audioController)),
-                          ),
-                          Positioned(
-                            left: 229,
-                            top: 0,
-                            child: Container(
-                              width: 83,
-                              height: 28,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            answerWidget('A', const Color(0xFFFF99C8)),
+                            const SizedBox(width: 9),
+                            answerWidget('B', const Color(0xFFFCF6BD)),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            answerWidget('C', const Color(0xFFD0F4DE)),
+                            const SizedBox(width: 9),
+                            answerWidget('D', const Color(0xFFA9DEF9)),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(top: 36),
+                              height: 50,
+                              width: 50,
                               decoration: BoxDecoration(
-                                border: Border.all(color: Color(0xffeef0f6)),
-                                color: Color(0xffb8c0ff),
+                                color: const Color(0xFFFFFFFF),
                                 borderRadius: BorderRadius.circular(25),
                               ),
-                              child: Center(
-                                child: Text(
-                                  '1/20',
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    height: 1.185,
-                                    color: Color(0xffffffff),
-                                  ),
-                                ),
-                              ),
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        )
+                      ],
                     ),
-                    SquareContainer(audioController: audioController),
-                    // Text('Drag the slider to ${widget.level.difficulty}%'
-                    //     ' or above!'),
-                    Consumer<LevelState>(
-                      builder: (context, levelState, child) => Slider(
-                        label: 'Level Progress',
-                        autofocus: true,
-                        value: levelState.progress / 100,
-                        onChanged: (value) =>
-                            levelState.setProgress((value * 100).round()),
-                        onChangeEnd: (value) => levelState.evaluate(),
-                      ),
-                    ),
-                    const Spacer(),
-                  ],
+                  ),
                 ),
               ),
               SizedBox.expand(
@@ -326,156 +327,6 @@ class _ListenState extends State<Listen> {
           audioController.playSfx(SfxType.congrats);
         },
         child: Image.asset('assets/images/speaker.png'),
-      ),
-    );
-  }
-}
-
-class SessionPage extends StatefulWidget {
-  const SessionPage({super.key});
-
-  @override
-  State<SessionPage> createState() => _SessionPageState();
-}
-
-class _SessionPageState extends State<SessionPage> {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        padding: const EdgeInsets.only(top: 29),
-        width: double.infinity,
-        color: const Color(0xFFFFD6FF),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 24),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: 66,
-                      height: 46,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFBBD0FF),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0xFFB8C0FF),
-                            offset: Offset(0, 6),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(right: 29),
-                      width: 71,
-                      height: 35,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFFFFF),
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                    )
-                  ],
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 15, left: 7),
-                  width: 325,
-                  height: 210,
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        bottom: 0,
-                        child: Container(
-                          width: 325,
-                          height: 196,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFFFFFFF),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              const Text(
-                                'House',
-                                style: TextStyle(
-                                    color: Color(0xFF315496),
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 32),
-                              ),
-                              Container(
-                                width: 66,
-                                height: 46,
-                                decoration: BoxDecoration(
-                                    color: const Color(0xFFBBD0FF),
-                                    borderRadius: BorderRadius.circular(20),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color(0xFFB8C0FF),
-                                        offset: Offset(0, 6),
-                                      )
-                                    ]),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 13,
-                        child: Container(
-                          width: 83,
-                          height: 28,
-                          decoration: BoxDecoration(
-                              color: const Color(0xFFB8C0FF),
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                color: const Color(0xFFEEF0F6),
-                                width: 2,
-                              )),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  children: [
-                    answerWidget('A', const Color(0xFFFF99C8)),
-                    const SizedBox(width: 9),
-                    answerWidget('B', const Color(0xFFFCF6BD)),
-                  ],
-                ),
-                Row(
-                  children: [
-                    answerWidget('C', const Color(0xFFD0F4DE)),
-                    const SizedBox(width: 9),
-                    answerWidget('D', const Color(0xFFA9DEF9)),
-                  ],
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 36),
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFFFFFF),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }
